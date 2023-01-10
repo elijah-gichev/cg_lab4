@@ -173,6 +173,7 @@ namespace CompGraf4
                 MessageBox.Show("Смещение введено неверно");
                 return;
             }
+
             if (!curpol.StartsWith("polygon"))
             {
                 MessageBox.Show("Выбран НЕ полигон");
@@ -180,7 +181,7 @@ namespace CompGraf4
             }
             else
             {
-                double[,] mat = { { 1, 0, 0 }, { 0, 1, 0 }, { dx, dy, 1 } };
+                double[,] mat = { { 1, 0, 0 }, { 0, 1, 0 }, { dx, -dy, 1 } };
                 int ind = int.Parse(curpol.Substring(7));
                 var curl = polygons[ind - 1];
                 for (int i = 0; i < curl.Count; i++)
@@ -215,9 +216,13 @@ namespace CompGraf4
             int dx = points[indpoint - 1].X;
             int dy = points[indpoint - 1].Y;
             double fi = int.Parse(label3.Text);
+
             double[,] turn = { {Cos(fi * PI/180),Sin(fi * PI / 180), 0 }, {-Sin(fi * PI / 180), Cos(fi * PI / 180), 0 },{0,0,1 } };
+
+            // совмещение с началом координат
             double[,] movm = { { 1, 0, 0 }, { 0, 1, 0 }, { -dx, -dy, 1 } };
             double[,] movp = { { 1, 0, 0 }, { 0, 1, 0 }, { dx, dy, 1 } };
+
             int indpol = int.Parse(curpol.Substring(7));
             var curl = polygons[indpol - 1];
             for (int i = 0; i < curl.Count; i++)
@@ -270,9 +275,13 @@ namespace CompGraf4
             int dy = points[indpoint - 1].Y;
             double a = int.Parse(label4.Text) / 100.0;
             double b = int.Parse(label5.Text) / 100.0;
+
             double[,] r = { { a, 0, 0 }, { 0, b, 0 }, { 0, 0, 1 } };
+
+            // совмещение с началом координат
             double[,] movm = { { 1, 0, 0 }, { 0, 1, 0 }, { -dx, -dy, 1 } };
             double[,] movp = { { 1, 0, 0 }, { 0, 1, 0 }, { dx, dy, 1 } };
+
             int indpol = int.Parse(curpol.Substring(7));
             var curl = polygons[indpol - 1];
             for (int i = 0; i < curl.Count; i++)
@@ -306,10 +315,13 @@ namespace CompGraf4
             var curl = lines[ind - 1];
             int dx = (curl.Item1.X + curl.Item2.X)/2;
             int dy = (curl.Item1.Y + curl.Item2.Y) / 2;
+
             int fi = 90;
+            // аналогично повороту полигона, угол фикс 90 градусов
             double[,] turn = { { Cos(fi * PI / 180), Sin(fi * PI / 180), 0 }, { -Sin(fi * PI / 180), Cos(fi * PI / 180), 0 }, { 0, 0, 1 } };
             double[,] movm = { { 1, 0, 0 }, { 0, 1, 0 }, { -dx, -dy, 1 } };
             double[,] movp = { { 1, 0, 0 }, { 0, 1, 0 }, { dx, dy, 1 } };
+
             Point x = curl.Item1;
             double[,] tek = { { x.X, x.Y, 1 } };
             double[,] newp = multMatrix(tek, movm);
@@ -359,7 +371,7 @@ namespace CompGraf4
                 x3 = x4;
                 x4 = t;
             }
-            if(x == int.MaxValue)
+            if(x == int.MaxValue && y == int.MaxValue)
             {
                 MessageBox.Show("Отрезки не пересекаются");
                 return;
@@ -422,11 +434,11 @@ namespace CompGraf4
             List<Point> l = polygons[indpol - 1];
             double x3, y3, x4 = 0, y4 = 0;
             (int, int) a;
+            // считаем кол-во пересечений
             for (int i = 0; i < l.Count-1; i++)
             {
                 x3 = l[i].X; y3 = l[i].Y; x4 = l[i + 1].X; y4 = l[i + 1].Y;
                 a = cross(x1, y1, x2, y2, x3, y3, x4, y4);
-                //graph.DrawEllipse(rpen, (float)(a.Item1 - 2.5), (float)(a.Item2 - 2.5), 5, 5);
                 if (x3 > x4)
                 {
                     double t = x3;
@@ -437,12 +449,10 @@ namespace CompGraf4
                     if ((a.Item1 >= x1 && a.Item1 <= x2) && (a.Item1 >= x3 && a.Item1 <= x4))
                     {
                         count++;
-                        //graph.DrawEllipse(rpen, (float)(a.Item1 - 2.5), (float)(a.Item2 - 2.5), 5, 5);
                     }
             }
             x3 = l[0].X; y3 = l[0].Y; x4 = l[l.Count - 1].X; y4 = l[l.Count - 1].Y;
             a = cross(x1, y1, x2, y2, x3, y3, x4, y4);
-            //graph.DrawLine(pen, (float)x1, (float)y1, (float)x2, (float)y2);
             if (x3 > x4)
             {
                 double t = x3;
@@ -450,11 +460,13 @@ namespace CompGraf4
                 x4 = t;
             }
             if (a.Item1 != int.MaxValue)
+            {
                 if ((a.Item1 >= x1 && a.Item1 <= x2) && (a.Item1 >= x3 && a.Item1 <= x4))
                 {
                     count++;
-                    graph.DrawEllipse(rpen, (float)(a.Item1 - 2.5), (float)(a.Item2 - 2.5), 5, 5);
                 }
+            }
+                
             if (count % 2 == 1)
                 MessageBox.Show("Точка внутри полигона");
             else
