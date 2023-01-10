@@ -1,0 +1,11 @@
+C:\dev\cg\Computer_Graphics_lab4\bin\Debug\CompGraf4.exe.config
+C:\dev\cg\Computer_Graphics_lab4\bin\Debug\CompGraf4.exe
+C:\dev\cg\Computer_Graphics_lab4\bin\Debug\CompGraf4.pdb
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.csproj.AssemblyReference.cache
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.csproj.SuggestedBindingRedirects.cache
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.Form1.resources
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.Properties.Resources.resources
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.csproj.GenerateResource.cache
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.csproj.CoreCompileInputs.cache
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.exe
+C:\dev\cg\Computer_Graphics_lab4\obj\Debug\CompGraf4.pdb
